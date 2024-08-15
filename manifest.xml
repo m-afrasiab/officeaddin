@@ -21,7 +21,7 @@
     </Hosts>
     
     <DefaultSettings>
-        <SourceLocation DefaultValue="https://yourdomain.com/taskpane.html"/>
+        <SourceLocation DefaultValue="https://m-afrasiab.github.io/officeaddin/taskpane.html"/>
     </DefaultSettings>
     
     <Permissions>ReadWriteDocument</Permissions>
@@ -32,7 +32,7 @@
                 <DesktopFormFactor>
                     <FunctionFile resid="Commands.Url"/>
                     <ExtensionPoint xsi:type="TaskPane">
-                        <SourceLocation DefaultValue="https://yourdomain.com/taskpane.html"/>
+                        <SourceLocation DefaultValue="https://m-afrasiab.github.io/officeaddin/taskpane.html"/>
                         <Title resid="Taskpane.Title"/>
                         <DockPosition>Right</DockPosition>
                         <RequestedWidth>350</RequestedWidth>
