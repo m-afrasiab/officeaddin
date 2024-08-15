@@ -8,6 +8,7 @@ function addPageNumbers() {
     Word.run(function(context) {
         // Get the document body and sections
         var sections = context.document.sections;
+        var body = context.document.body;
         sections.load('items');
 
         return context.sync().then(function() {
@@ -29,7 +30,7 @@ function addPageNumbers() {
 
                         // Insert a section break to simulate moving to the next page (optional)
                         if (currentPage <= totalPages) {
-                            section.insertBreak(Word.BreakType.sectionNextPage, Word.InsertLocation.end);
+                            body.insertBreak(Word.BreakType.Page, Word.InsertLocation.end);
                         }
                     }
                 });
