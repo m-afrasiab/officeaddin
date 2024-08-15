@@ -6,32 +6,34 @@ Office.onReady(function(info) {
 
 function addPageNumbers() {
     Word.run(function(context) {
-        // Get the document body
-        var body = context.document.body;
-        context.load(body);
+        // Get the document body and sections
+        var sections = context.document.sections;
+        sections.load('items');
 
         return context.sync().then(function() {
-            var sections = context.document.sections;
-            sections.load('items');
-            return context.sync().then(function() {
-                if (sections.items.length > 1) {
-                    var section = sections.items[1]; // Get the second section
-                    var footer = section.getFooter("Primary");
+            if (sections.items.length > 1) {
+                var section = sections.items[3]; // Get the second section
+                var footer = section.getFooter("Primary");
 
-                    // Add page number starting from this section
-                    footer.insertText("Page ", Word.InsertLocation.end);
-                    footer.fields.add(footer.getRange(), Word.FieldType.pageNumber);
-                    footer.insertText(" of ", Word.InsertLocation.end);
-                    footer.fields.add(footer.getRange(), Word.FieldType.numPages);
+                // Insert "Page " text
+                var pageRange = footer.insertText("Page ", Word.InsertLocation.end);
 
-                    // Set the starting page number for the second section to 1
-                    section.pageSetup.startingNumber = 1;
+                // Insert page number field
+                var pageField = pageRange.insertField(Word.FieldType.page, true);
 
-                    return context.sync();
-                } else {
-                    console.log("The document does not have enough pages to split.");
-                }
-            });
+                // Insert " of " text
+                footer.insertText(" of ", Word.InsertLocation.end);
+
+                // Insert total number of pages field
+                var totalPagesField = footer.insertField(Word.FieldType.numPages, true);
+
+                // Set the starting page number for the second section to 1
+                section.pageSetup.startingNumber = 1;
+
+                return context.sync();
+            } else {
+                console.log("The document does not have enough pages to split.");
+            }
         });
     }).catch(function(error) {
         console.log("Error: " + JSON.stringify(error, null, 2));
