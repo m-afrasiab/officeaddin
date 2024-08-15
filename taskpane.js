@@ -6,38 +6,40 @@ Office.onReady(function(info) {
 
 function addPageNumbers() {
     Word.run(function(context) {
-        // Get the document body and sections
+        // Get the document sections
         var sections = context.document.sections;
         var body = context.document.body;
         sections.load('items');
 
         return context.sync().then(function() {
-            if (sections.items.length > 0) {
-                var totalPages = 79; // Total number of pages
+            if (sections.items.length > 3) { // Ensure the document has at least 3 sections
+                var section = sections.items[3]; // Access the third section
+                var footer = section.getFooter("Primary");
+
+                // Clear existing footer content
+                footer.clear();
+
+                // Total number of pages
+                var totalPages = 79; // Adjust this if necessary
                 var currentPage = 1;
 
-                // Loop through each section
-                sections.items.forEach(function(section) {
-                    var footer = section.getFooter("Primary");
+                // Loop through each page in the section and add the page number
+                while (currentPage <= totalPages) {
+                    // Insert "Page X of 79" text
+                    footer.insertText("Page " + currentPage + " of " + totalPages, Word.InsertLocation.end);
 
-                    // Loop through each page in the section and add the page number
-                    for (var i = 0; i < totalPages && currentPage <= totalPages; i++) {
-                        // Insert "Page X of 79" text
-                        footer.insertText("Page " + currentPage + " of " + totalPages, Word.InsertLocation.end);
+                    // Move to the next page
+                    currentPage++;
 
-                        // Move to the next page
-                        currentPage++;
-
-                        // Insert a section break to simulate moving to the next page (optional)
-                        if (currentPage <= totalPages) {
-                            body.insertBreak(Word.BreakType.Page, Word.InsertLocation.end);
-                        }
+                    // Insert a page break to simulate the next page (adjust if necessary)
+                    if (currentPage <= totalPages) {
+                        body.insertBreak(Word.BreakType.page, Word.InsertLocation.end);
                     }
-                });
+                }
 
                 return context.sync();
             } else {
-                console.log("The document does not have any sections.");
+                console.log("The document does not have a third section.");
             }
         });
     }).catch(function(error) {
