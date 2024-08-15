@@ -15,18 +15,18 @@ function addPageNumbers() {
             if (sections.items.length > 1) {
                 var section = sections.items[3]; // Get the second section
                 var footer = section.getFooter("Primary");
-					 
+		var range = section.getFooter("Primary").getRange();			 
                 // Insert "Page " text
                 footer.insertText("Page ", Word.InsertLocation.end);
 
                 // Insert page number field
-                footer.insertField(Word.InsertLocation.end, Word.FieldType.page, true);
+                range.insertField(Word.InsertLocation.end, Word.FieldType.page, true);
 
                 // Insert " of " text
                 footer.insertText(" of ", Word.InsertLocation.end);
 
                 // Insert total number of pages field
-                footer.insertField(Word.InsertLocation.end, Word.FieldType.numPages, true);
+                range.insertField(Word.InsertLocation.end, Word.FieldType.numPages, true);
 
                 // Set the starting page number for the second section to 1
                 
