@@ -10,14 +10,12 @@ function addPageNumbers() {
         var body = context.document.body;
         context.load(body);
 
-        // Split the document into sections at the 8th page
         return context.sync().then(function() {
-            // Assuming the first 8 pages are in one section
             var sections = context.document.sections;
             sections.load('items');
             return context.sync().then(function() {
                 if (sections.items.length > 1) {
-                    var section = sections.items[3]; // Get the second section
+                    var section = sections.items[1]; // Get the second section
                     var footer = section.getFooter("Primary");
 
                     // Add page number starting from this section
@@ -36,6 +34,8 @@ function addPageNumbers() {
             });
         });
     }).catch(function(error) {
-        console.log("Error: " + JSON.stringify(error));
+        console.log("Error: " + JSON.stringify(error, null, 2));
+        console.log("Error message: " + error.message);
+        console.log("Stack trace: " + error.stack);
     });
 }
