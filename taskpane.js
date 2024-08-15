@@ -19,7 +19,7 @@ function addPageNumbers() {
                 var pageRange = footer.insertParagraph("Page ", Word.InsertLocation.end);
 
                 // Insert page number field
-                var pageField = pageRange.insertField(Word.FieldType.page, true);
+               
 
                 // Insert " of " text
                 footer.insertText(" of ", Word.InsertLocation.end);
