@@ -17,7 +17,7 @@ function addPageNumbers() {
             sections.load('items');
             return context.sync().then(function() {
                 if (sections.items.length > 1) {
-                    var section = sections.items[1]; // Get the second section
+                    var section = sections.items[3]; // Get the second section
                     var footer = section.getFooter("Primary");
 
                     // Add page number starting from this section
