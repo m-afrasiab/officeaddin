@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+           xsi:type="TaskPaneApp">
+    <Id>your-guid-here</Id>
+    <Version>1.0.0.0</Version>
+    <ProviderName>Your Provider Name</ProviderName>
+    <DefaultLocale>en-US</DefaultLocale>
+    <DisplayName DefaultValue="Custom Page Numbering Add-In"/>
+    <Description DefaultValue="An add-in to start page numbering from the 9th page of your Word document"/>
+    <IconUrl DefaultValue="https://yourdomain.com/assets/icon.png"/>
+    
+    <AppDomains>
+        <AppDomain>https://yourdomain.com</AppDomain>
+    </AppDomains>
+    
+    <Hosts>
+        <Host Name="Document"/>
+    </Hosts>
+    
+    <DefaultSettings>
+        <SourceLocation DefaultValue="https://yourdomain.com/taskpane.html"/>
+    </DefaultSettings>
+    
+    <Permissions>ReadWriteDocument</Permissions>
+    
+    <VersionOverrides Version="1.0">
+        <Hosts>
+            <Host xsi:type="Document">
+                <DesktopFormFactor>
+                    <FunctionFile resid="Commands.Url"/>
+                    <ExtensionPoint xsi:type="TaskPane">
+                        <SourceLocation DefaultValue="https://yourdomain.com/taskpane.html"/>
+                        <Title resid="Taskpane.Title"/>
+                        <DockPosition>Right</DockPosition>
+                        <RequestedWidth>350</RequestedWidth>
+                    </ExtensionPoint>
+                </DesktopFormFactor>
+            </Host>
+        </Hosts>
+    </VersionOverrides>
+</OfficeApp>
