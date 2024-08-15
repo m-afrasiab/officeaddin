@@ -8,32 +8,35 @@ function addPageNumbers() {
     Word.run(function(context) {
         // Get the document body and sections
         var sections = context.document.sections;
-		  
         sections.load('items');
 
         return context.sync().then(function() {
-            if (sections.items.length > 1) {
-                var section = sections.items[3]; // Get the second section
-                var footer = section.getFooter("Primary");
-		var range = section.getFooter("Primary").getRange();			 
-                // Insert "Page " text
-                footer.insertText("Page ", Word.InsertLocation.end);
+            if (sections.items.length > 0) {
+                var totalPages = 79; // Total number of pages
+                var currentPage = 1;
 
-                // Insert page number field
-                range.insertField(Word.InsertLocation.end, Word.FieldType.page, true);
+                // Loop through each section
+                sections.items.forEach(function(section) {
+                    var footer = section.getFooter("Primary");
 
-                // Insert " of " text
-                footer.insertText(" of ", Word.InsertLocation.end);
+                    // Loop through each page in the section and add the page number
+                    for (var i = 0; i < totalPages && currentPage <= totalPages; i++) {
+                        // Insert "Page X of 79" text
+                        footer.insertText("Page " + currentPage + " of " + totalPages, Word.InsertLocation.end);
 
-                // Insert total number of pages field
-                range.insertField(Word.InsertLocation.end, Word.FieldType.numPages, true);
+                        // Move to the next page
+                        currentPage++;
 
-                // Set the starting page number for the second section to 1
-                
+                        // Insert a section break to simulate moving to the next page (optional)
+                        if (currentPage <= totalPages) {
+                            section.insertBreak(Word.BreakType.sectionNextPage, Word.InsertLocation.end);
+                        }
+                    }
+                });
 
                 return context.sync();
             } else {
-                console.log("The document does not have enough pages to split.");
+                console.log("The document does not have any sections.");
             }
         });
     }).catch(function(error) {
