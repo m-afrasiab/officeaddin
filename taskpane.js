@@ -19,20 +19,13 @@ function addPageNumbers() {
                 // Clear existing footer content
                 footer.clear();
 
-                // Total number of pages
-                var totalPages = 79; // Adjust this if necessary
-                var currentPage = 1;
-
-                // Loop through each page in the section and add the page number
-                while (currentPage <= totalPages) {
+                // Insert page numbers in the format "Page X of 79"
+                for (var i = 1; i <= 79; i++) {
                     // Insert "Page X of 79" text
-                    footer.insertText("Page " + currentPage + " of " + totalPages, Word.InsertLocation.end);
+                    footer.insertText("Page " + i + " of 79", Word.InsertLocation.end);
 
-                    // Move to the next page
-                    currentPage++;
-
-                    // Insert a page break to simulate the next page (adjust if necessary)
-                    if (currentPage <= totalPages) {
+                    // If it's not the last page, insert a page break to simulate the next page
+                    if (i < 79) {
                         body.insertBreak(Word.BreakType.page, Word.InsertLocation.end);
                     }
                 }
@@ -48,3 +41,4 @@ function addPageNumbers() {
         console.log("Stack trace: " + error.stack);
     });
 }
+
