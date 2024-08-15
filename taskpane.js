@@ -25,7 +25,7 @@ function addPageNumbers() {
                 }
 
                 // Set the starting page number for the second section to 1
-                section.pageSetup.startingNumber = 1;
+
 
                 return context.sync();
             } else {
