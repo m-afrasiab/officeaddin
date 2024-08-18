@@ -17,7 +17,12 @@ async function run() {
 
         // Get all paragraphs in the last section and load necessary properties
         const paragraphs = lastSection.body.paragraphs;
-        paragraphs.load('items/style/isListItem');
+        paragraphs.load('items/style');
+
+        // Load the listItem property to check if a paragraph is part of a list
+        paragraphs.items.forEach(paragraph => {
+            paragraph.load('listItem');
+        });
 
         await context.sync();
 
@@ -26,7 +31,7 @@ async function run() {
             const style = paragraph.style;
 
             // Skip headings (styles start with "Heading") and list paragraphs
-            if (!style.startsWith("Heading") && !paragraph.isListItem) {
+            if (!style.startsWith("Heading") && !paragraph.listItem) {
                 paragraph.insertParagraph("", Word.InsertLocation.after);
             }
         });
