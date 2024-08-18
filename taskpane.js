@@ -6,17 +6,32 @@ Office.onReady(function(info) {
 
 async function run() {
     await Word.run(async (context) => {
-        // Get all paragraphs in the document
-        const paragraphs = context.document.body.paragraphs;
-        paragraphs.load('items');
-        
+        // Get all sections in the document
+        const sections = context.document.sections;
+        sections.load('items');
+
         await context.sync();
 
-        // Insert an empty line after each paragraph
+        // Get the last section
+        const lastSection = sections.items[sections.items.length - 1];
+
+        // Get all paragraphs in the last section
+        const paragraphs = lastSection.body.paragraphs;
+        paragraphs.load('items');
+
+        await context.sync();
+
+        // Insert an empty line after each paragraph in the last section
         paragraphs.items.forEach(paragraph => {
             paragraph.insertParagraph("", Word.InsertLocation.after);
         });
 
         await context.sync();
+    })
+    .catch(function(error) {
+        console.log("Error: " + JSON.stringify(error));
+        if (error instanceof OfficeExtension.Error) {
+            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+        }
     });
 }
