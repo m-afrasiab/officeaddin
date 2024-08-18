@@ -1,4 +1,4 @@
-Office.onReady(function(info) {
+Office.onReady(function (info) {
     if (info.host === Office.HostType.Word) {
         document.getElementById("run").onclick = run;
     }
@@ -17,18 +17,22 @@ async function run() {
 
         // Get all paragraphs in the last section
         const paragraphs = lastSection.body.paragraphs;
-        paragraphs.load('items');
+        paragraphs.load('items/style/paragraphs');
 
         await context.sync();
 
-        // Insert an empty line after each paragraph in the last section
+        // Iterate through the paragraphs and add an empty line after each, excluding headings and lists
         paragraphs.items.forEach(paragraph => {
-            paragraph.insertParagraph("", Word.InsertLocation.after);
+            const style = paragraph.style;
+
+            // Skip headings (styles start with "Heading") and list paragraphs
+            if (!style.startsWith("Heading") && !paragraph.isListItem) {
+                paragraph.insertParagraph("", Word.InsertLocation.after);
+            }
         });
 
         await context.sync();
-    })
-    .catch(function(error) {
+    }).catch(function (error) {
         console.log("Error: " + JSON.stringify(error));
         if (error instanceof OfficeExtension.Error) {
             console.log("Debug info: " + JSON.stringify(error.debugInfo));
