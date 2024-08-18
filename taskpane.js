@@ -15,9 +15,9 @@ async function run() {
         // Get the last section
         const lastSection = sections.items[sections.items.length - 1];
 
-        // Get all paragraphs in the last section
+        // Get all paragraphs in the last section and load necessary properties
         const paragraphs = lastSection.body.paragraphs;
-        paragraphs.load('items/style/paragraphs');
+        paragraphs.load('items/style/isListItem');
 
         await context.sync();
 
